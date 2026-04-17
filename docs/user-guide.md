@@ -24,7 +24,9 @@ The onboarding interview closes when the charter's sections are covered — not 
 
 ---
 
-## The Three Prompts
+## The Four Prompts
+
+**onboarding-interview.md** — Single-use session trigger. Paste it once into a fresh Claude session with your partially-filled charter attached. Drives the structured interview that produces the completed, token-optimized charter. Never upload to a build session.
 
 **charter.md** — The project charter. Written once per project via the Onboarding Interview, updated only when constraints, stack, or scope materially change. Pin this to your Claude Project so it's always in context without manual upload.
 

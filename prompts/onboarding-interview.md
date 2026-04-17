@@ -1,8 +1,5 @@
 # CSOT — Onboarding Interview
 
-Paste this into a fresh Claude session to generate your first completed charter.
-
-If you have a partially filled `charter.md`, attach it below this prompt. If no charter is attached, Claude will ask for it before proceeding.
 
 **Final output requirement:** When the interview closes, produce a token-optimized charter as a clean output block — all placeholders populated or removed, no residual interview language, field labels compressed where self-evident, generative constraints and session scope appearing first. This is a production artifact that will be re-read by Claude at the start of every build session for the life of the project.
 

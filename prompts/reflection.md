@@ -1,9 +1,3 @@
-# CSOT — Session Reflection
-
-This is a session-close trigger. Paste it as-is at the end of any build session.
-
----
-
 This session is closing. Using the full context of our conversation:
 
 1. Pre-fill every reflection question you can answer from what you observed
@@ -23,5 +17,3 @@ The reflection questions you are working through are:
 - What is clearer now than it was at the start of this session?
 - What is still unresolved, and what would it take to resolve it?
 - Does anything in the charter need to change based on what we learned?
-
----
