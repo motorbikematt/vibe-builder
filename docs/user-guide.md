@@ -55,7 +55,9 @@ ONCE PER PROJECT
      followed by your partially-filled charter
   4. Complete the interview — Claude challenges, you defend or revise
   5. Claude declares readiness; you agree or identify what's blocking closure
-  6. Export the completed charter, pin it to your Claude Project
+  6. Paste the closing trigger: "The interview is closed. Produce the final
+     token-optimized charter now."
+  7. Copy the output into charter.md, pin it to your Claude Project
 
 EVERY SESSION
   Open  → paste session-brief.md (attach charter.md on session #1 or after charter changes)
@@ -84,7 +86,14 @@ We are going to complete a CSOT Project Charter together using a structured inte
 I have pre-filled the charter below as far as my current thinking allows. 
 Italicized fields are genuinely open.
 
+**Final output requirement:** When the interview closes, produce a token-optimized
+charter as a clean output block — all placeholders populated or removed, no residual
+interview language, field labels compressed where self-evident, generative constraints
+and session scope appearing first. This is a production artifact that will be re-read
+by Claude at the start of every build session for the life of the project.
+
 Your job:
+- If no charter is attached, ask for it before doing anything else
 - Work through the charter's sections in order
 - Ask focused follow-up questions where my answers are thin, vague, or missing
 - Challenge me directly where you see contradictions, inconsistencies, or 
@@ -98,13 +107,37 @@ Your job:
   blocking closure
 - Bias toward done: the standard is "sufficient to start and learn" not "perfect"
 
+When following up on a thin or vague answer:
+- Affirm what the answer got right, name specifically what is missing, then ask
+  one constrained follow-up that closes that gap — do not open new threads
+- If the answer is underspecified, first consider whether the question was the
+  problem; reframe the question before iterating on the answer
+- Do not iterate more than twice on the same field; if the gap remains after two
+  attempts, flag it as unresolvable in this session and defer it to the
+  Fabrication Log as an open question
+
 Do not ask more than two questions at a time. Do not summarize my answers back 
 to me. Do not perform agreement — if you think I'm wrong, say so and explain why.
+
+**When I signal that the interview is closed, produce the final token-optimized
+charter as a clean output block ready to copy into the repo. All italicized
+placeholders either populated or removed. No conversational artifacts. Generative
+constraints and session scope first. This is the production document.**
 
 Here is the charter:
 
 [PASTE YOUR PARTIALLY-FILLED CHARTER.MD HERE]
 ```
+
+### Closing the interview
+
+When you are satisfied the charter is ready, paste this as your final message to trigger the optimized output:
+
+```
+The interview is closed. Produce the final token-optimized charter now.
+```
+
+This two-line trigger exists because the onboarding session can run long enough for context degradation to affect recall of the final output requirement. The trigger re-states the instruction at the moment it is needed, regardless of session length. Do not skip it.
 
 ---
 
@@ -165,6 +198,38 @@ The handoff works because it forces summarization while Claude still has clear r
 ### Practical session length guidance
 
 No official threshold exists for claude.ai. As a working rule: treat any session exceeding 90 minutes of active work, or more than roughly 30 back-and-forth exchanges, as a candidate for a mid-session handoff regardless of whether symptoms have appeared. Intervening early produces a better summary than intervening after degradation has set in.
+
+---
+
+## Refinement Technique
+
+Refinement is the practice of sharpening a Claude response without starting over or losing session continuity. It is a technique, not a prompt — it does not get pasted from a file. Internalize it and apply it mid-session when the conditions are right.
+
+### When to refine
+
+Three conditions must all be present:
+
+**The response is directionally correct.** Claude understood the task and produced something relevant, but the output is too broad, too generic, or missing a dimension you care about. If Claude solved the wrong problem entirely, that is a reframe, not a refinement.
+
+**The session context is clean.** If you are observing any context rot warning signs — hedged responses, rehashed ideas, contradictions — refinement will produce a worse version of an already degraded response. Run a mid-session handoff first, then refine in the new session.
+
+**The gap is articulable.** Before sending a refinement, write down in one sentence what specifically is wrong or missing. If you cannot write that sentence, you do not yet have enough clarity to refine. Unarticulable dissatisfaction is an underspecified request, not a refinement candidate.
+
+### The refinement pattern
+
+Affirm what the response got right. Name specifically what is missing or off. Add the constraint or dimension that addresses the gap. In practice:
+
+> "The competitive analysis is solid on features but doesn't address pricing model differences. Add a section comparing freemium vs. subscription approaches across the same competitors."
+
+That three-part structure — affirm, specify, constrain — keeps Claude from discarding what was good while sharpening what wasn't. "Try again" without that structure produces a different random output, not a better one.
+
+### The disqualifying condition
+
+If you are adding specificity that should have been in the original prompt, that is not refinement — that is completing the original request. If this pattern repeats across sessions, the fix is upstream: your functional spec or session brief scope field is chronically underspecified. Update the charter, not your prompting habit.
+
+### Symmetry with the onboarding interview
+
+This technique applies in both directions. When Claude asks you a question during onboarding and your answer is thin, Claude follows the same pattern: affirm what you gave, name what is missing, ask one constrained follow-up. If an answer remains underspecified after two iterations, the field moves to the Fabrication Log as an open question rather than forcing a resolution that isn't there yet.
 
 ---
 

@@ -4,6 +4,8 @@ Paste this into a fresh Claude session to generate your first completed charter.
 
 If you have a partially filled `charter.md`, attach it below this prompt. If no charter is attached, Claude will ask for it before proceeding.
 
+**Final output requirement:** When the interview closes, produce a token-optimized charter as a clean output block — all placeholders populated or removed, no residual interview language, field labels compressed where self-evident, generative constraints and session scope appearing first. This is a production artifact that will be re-read by Claude at the start of every build session for the life of the project.
+
 ---
 
 We are going to complete a CSOT Project Charter together using a structured interview.
@@ -25,8 +27,19 @@ Your job:
   blocking closure
 - Bias toward done: the standard is "sufficient to start and learn" not "perfect"
 
+When following up on a thin or vague answer:
+- Affirm what the answer got right, name specifically what is missing, then ask
+  one constrained follow-up that closes that gap — do not open new threads
+- If the answer is underspecified, first consider whether the question was the
+  problem; reframe the question before iterating on the answer
+- Do not iterate more than twice on the same field; if the gap remains after two
+  attempts, flag it as unresolvable in this session and defer it to the
+  Fabrication Log as an open question
+
 Do not ask more than two questions at a time. Do not summarize my answers back
 to me. Do not perform agreement — if you think I'm wrong, say so and explain why.
+
+**When I signal that the interview is closed, produce the final token-optimized charter as a clean output block ready to copy into the repo. All italicized placeholders either populated or removed. No conversational artifacts. Generative constraints and session scope first. This is the production document.**
 
 ---
 
