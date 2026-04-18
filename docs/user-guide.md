@@ -24,26 +24,50 @@ The onboarding interview closes when the charter's sections are covered — not 
 
 ---
 
-## The Four Prompts
+## The System
 
-**onboarding-interview.md** — Single-use session trigger. Paste it once into a fresh Claude session with your partially-filled charter attached. Drives the structured interview that produces the completed, token-optimized charter. Never upload to a build session.
+CSOT governs the full lifecycle of a human × AI collaboration: from early problem exploration through concept validation, charter creation, and iterative build sessions. The system has seven prompt files across three phases and one permanently out-of-band reference document (this one).
 
-**charter.md** — The project charter. Written once per project via the Onboarding Interview, updated only when constraints, stack, or scope materially change. Pin this to your Claude Project so it's always in context without manual upload.
+**Pre-charter phase (upstream):**
+- `problem-framing.md` — Solo thinking tool for exploring unfamiliar problem spaces (optional)
+- `concept-brief.md` — Solo template capturing the proposed direction and key assumptions (minimum entry point for any new project)
+- `concept-challenge.md` — Interactive prompt for adversarial concept review before committing to a charter
 
-**session-brief.md** — Pasted at the start of every session. Tells Claude what today's session is doing, what done looks like, and what carry-ins exist from last session. Attach the charter only on session one or when the charter has changed.
+**Charter phase:**
+- `onboarding-interview.md` — Single-use session trigger that produces the completed charter
+- `charter.md` — The project charter, pinned to your Claude Project for the life of the project
 
-**reflection.md** — A session-close trigger. Paste it at the end of any build session. Claude reviews the full session context, pre-fills the reflection questions from what it observed, confirms with you, then generates Fabrication Log entries ready to paste into the charter. You correct or add anything Claude couldn't determine from context. This is the mechanism that makes the charter a living document.
+**Build phase (repeating):**
+- `session-brief.md` — Pasted at the start of every session
+- `reflection.md` — Pasted at the end of every session
+- `midsession-summary-handoff.txt` — Pasted mid-session when context rot appears (the claude.ai analog to `/compact`)
 
-The nine questions Claude works through internally:
-- What did we set out to do this session?
-- What did we actually accomplish?
-- What did we attempt that didn't work, and why?
-- What assumption turned out to be wrong?
-- What constraint surfaced that wasn't in the charter before this session?
-- What decision did we make that can't easily be undone?
-- What is clearer now than it was at the start of this session?
-- What is still unresolved, and what would it take to resolve it?
-- Does anything in the charter need to change based on what we learned?
+Each prompt file has a corresponding quick guide in `docs/guides/` that covers its fields, what to attach, and where the output goes. Quick guides are human reference — never upload them to Claude.
+
+---
+
+## How to Set Up Your Claude Project
+
+Each CSOT project maps to one Claude Project. The Project's custom instructions and pinned files create the persistent context that replaces session-to-session memory.
+
+**Pin to the Claude Project (always in context):**
+- `charter.md` — Pin after the onboarding interview produces the final version. Update the pinned copy whenever the charter changes.
+
+**Paste into chat at the right moment (not pinned):**
+- `concept-challenge.md` — Paste once into a fresh session with your completed concept brief (and completed problem framing, if you wrote one) attached. This session is single-use.
+- `onboarding-interview.md` — Paste once into a fresh session with your partially-filled charter attached. This session is single-use.
+- `session-brief.md` — Paste at the start of every build/discovery/review/pivot session.
+- `reflection.md` — Paste at the end of every session.
+- `midsession-summary-handoff.txt` — Paste mid-session when context rot warning signs appear.
+
+**Never upload to any Claude session:**
+- `user-guide.md` — This file. Reference doc for you.
+- Quick guides (`docs/guides/`) — Human-facing reference. Claude doesn't need them.
+- `problem-framing.md` (the blank template) — You fill this alone. The completed version gets attached to the concept challenge session alongside the concept brief.
+- `concept-brief.md` (the blank template) — You fill this alone. The completed version gets attached to the concept challenge session.
+
+**Project custom instructions (optional but recommended):**
+If your working style contract is consistent across projects, put it in the Project's custom instructions rather than repeating it in every charter. The charter's Section 2 (Role & Context) can then reference "per project instructions" and focus on project-specific behavioral agreements.
 
 ---
 
@@ -51,29 +75,72 @@ The nine questions Claude works through internally:
 
 ```
 ONCE PER PROJECT
-  1. Fill charter.md with your initial thinking (leave gaps where uncertain)
-  2. Open a new Claude session
-  3. Paste the Onboarding Interview below as your first message,
-     followed by your partially-filled charter
-  4. Complete the interview — Claude challenges, you defend or revise
-  5. Claude declares readiness; you agree or identify what's blocking closure
-  6. Paste the closing trigger: "The interview is closed. Produce the final
-     token-optimized charter now."
-  7. Copy the output into charter.md, pin it to your Claude Project
+
+  Pre-charter (enter wherever your thinking is):
+  1. Fill problem-framing.md alone (optional — skip if you know the domain)
+  2. Fill concept-brief.md alone
+  3. New Claude session → paste concept-challenge.md
+     + attach completed concept brief (and problem framing if completed)
+     → complete the challenge → close session
+  4. Pre-fill charter.md Section 0 from concept brief + challenge findings
+
+  Charter:
+  5. New Claude session → paste onboarding-interview.md
+     + attach pre-filled charter
+     → complete the interview → paste closing trigger → close session
+  6. Create Claude Project → pin completed charter.md
 
 EVERY SESSION
-  Open  → paste session-brief.md (attach charter.md on session #1 or after charter changes)
+
+  Open  → paste session-brief.md
+           (fill in scope, done-looks-like, carry-ins, session type)
+           (attach charter.md on session #1 or after charter changes)
   Build → work
   Close → paste reflection.md
-          Claude pre-fills reflection from session context and confirms with you
-          Paste generated Fabrication Log entries back into charter.md
+           Claude pre-fills reflection from session context
+           Confirm, correct, paste Fabrication Log entries into charter.md
+
+WHEN THINGS GO SIDEWAYS
+
+  Context rot warning signs
+    → paste midsession-summary-handoff.txt → new session → continue
+
+  Broken assumption surfaces in reflection
+    → next session type is "pivot"
+    → determine: charter patch or return to concept challenge
+
+  Concept is fundamentally wrong
+    → return to concept brief with what you learned
+    → new concept challenge session
 ```
+
+---
+
+## Flow Logic
+
+The system has one forward path and one loop-back.
+
+**Forward path:** Problem framing (optional, solo) → Concept brief (solo) → Concept challenge (interactive, single-use session) → Charter via onboarding interview (interactive, single-use session) → Build cycle (session brief → build → reflection, repeating).
+
+**Loop-back:** Any reflection that surfaces a broken assumption or invalidated constraint can trigger a return to discovery or concept challenge. The reflection prompt already asks "does anything in the charter need to change?" — some changes are large enough to require revisiting the concept, not just patching the charter.
+
+**Entry points:** Enter at whatever stage matches where your thinking is. Know the problem and the solution? Start at the concept brief. Already stress-tested feasibility? Skip to the charter. Exploring? Start at problem framing. The stages are not gates — they are on-ramps.
+
+**Session types:** Not every session is a build session. The session brief accepts one of four types:
+- **Build** — implementation work against the charter spec
+- **Discovery** — divergent, generative exploration of a problem or opportunity
+- **Review** — evaluative, convergent assessment of what was built or learned
+- **Pivot** — the thing we built or learned changes the concept; session goal is to determine whether to update the charter or return to concept challenge
+
+The session type tells Claude what kind of thinking the session demands. A discovery session expects divergent ideation and tolerance for ambiguity. A build session expects spec-driven execution. A review session expects evaluative judgment. A pivot session expects honest reassessment. Claude adjusts accordingly.
 
 ---
 
 ## Filling the Charter
 
 Fill as much as you can before the Onboarding Interview. Incomplete fields are fine — the interview exists to resolve them. Delete italicized placeholder text as you replace it with your own content. Leave italicized text in place where you have nothing to write yet — it signals to Claude that the field is genuinely open.
+
+The charter now begins with Section 0 (Discovery Context), which carries forward the problem statement, solution direction, and surviving assumptions from the concept brief and concept challenge. If you completed the upstream phases, Section 0 will be largely pre-filled from that work. If you skipped directly to the charter, fill Section 0 yourself — it gives Claude the "why" behind the project at every session open, not just the "what."
 
 ---
 
@@ -176,18 +243,7 @@ This is the claude.ai equivalent of the `/compact` command available in Claude C
 
 When you decide to intervene — either because you noticed warning signs or as a proactive measure in a long session — do the following:
 
-**Step 1.** Paste this prompt into the current session:
-
-```
-Before we close this session, generate a handoff summary containing:
-- Decisions made this session that must carry forward
-- Approaches we ruled out and why
-- Current state of what was built or changed
-- Open questions that remain unresolved
-- Anything in the charter that needs updating
-
-Be specific and terse. This summary will open the next session.
-```
+**Step 1.** Paste `midsession-summary-handoff.txt` into the current session.
 
 **Step 2.** Copy the summary Claude generates.
 
@@ -229,9 +285,9 @@ That three-part structure — affirm, specify, constrain — keeps Claude from d
 
 If you are adding specificity that should have been in the original prompt, that is not refinement — that is completing the original request. If this pattern repeats across sessions, the fix is upstream: your functional spec or session brief scope field is chronically underspecified. Update the charter, not your prompting habit.
 
-### Symmetry with the onboarding interview
+### Symmetry with the onboarding interview and concept challenge
 
-This technique applies in both directions. When Claude asks you a question during onboarding and your answer is thin, Claude follows the same pattern: affirm what you gave, name what is missing, ask one constrained follow-up. If an answer remains underspecified after two iterations, the field moves to the Fabrication Log as an open question rather than forcing a resolution that isn't there yet.
+This technique applies in both directions. When Claude asks you a question during onboarding or challenges an assumption during the concept challenge and your answer is thin, Claude follows the same pattern: affirm what you gave, name what is missing, ask one constrained follow-up. If an answer remains underspecified after two iterations, the field moves to the Fabrication Log as an open question rather than forcing a resolution that isn't there yet.
 
 ---
 
@@ -243,6 +299,7 @@ The charter is a living document, not a snapshot. Update it when:
 - The stack changes
 - Scope shifts materially (features added, goals revised, non-goals reconsidered)
 - The Fabrication Log reveals something that invalidates a documented assumption
+- A reflection surfaces a broken assumption large enough to require revisiting the concept (loop back to concept challenge)
 
 Do not update it to reflect implementation details that belong in code comments or tickets. The charter governs intent and constraints, not execution.
 
@@ -254,10 +311,12 @@ When you amend the charter's own structure — adding a section, removing a fiel
 
 **Constraints are generative.** They appear first in the charter because everything downstream is shaped by them. Review and update constraints before adding features, not after.
 
-**Dead ends belong in the record.** The Fabrication Log captures what failed and what it revealed, not just decisions made. Dead ends carry the real constraints.
+**Dead ends belong in the record.** The Fabrication Log captures what failed and what it revealed, not just decisions made. Dead ends carry the real constraints. The concept challenge produces a findings summary on any outcome — proceed, revise, or kill — so that reasoning is never lost.
 
 **Show the mechanism.** Every feature in the functional spec carries its origin. If you can't state why a feature exists, it hasn't been decided yet.
 
 **The document adapts to the project.** If a section stops serving its purpose, change it. The CSOT is not a sealed template.
 
 **Efficient action over perfect documentation.** Accept experimentation at the start. The system exists to accelerate building, not to replace it.
+
+**Solo fill protects divergent thinking.** Problem framing and concept brief are filled alone because Claude converges too early when present during ideation. Ambiguity is the material in early exploration — resolve it in conversation only after you've sat with it yourself.

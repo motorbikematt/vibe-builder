@@ -5,6 +5,23 @@
 
 ---
 
+## 0. Discovery Context
+
+**Problem statement:**
+*(One paragraph — who has this problem, what it is, why it matters. Carried forward from the concept brief.)*
+
+**Solution direction:**
+*(What we're building and why this approach over alternatives. Two to three sentences.)*
+
+**Assumptions this project depends on:**
+- *(assumption — survived concept challenge, carries forward as a thing to watch)*
+- *(assumption)*
+
+**What the concept challenge revealed:**
+*(Key findings from the adversarial review — residual risks, scope adjustments, architectural decisions made during the challenge. If you skipped the concept challenge, delete this field.)*
+
+---
+
 ## 1. Generative Constraints
 
 **Rules this project builds inside:**
