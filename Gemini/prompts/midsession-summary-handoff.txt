@@ -1,0 +1,8 @@
+Before we close this session, generate a handoff summary containing:
+- Decisions made this session that must carry forward
+- Approaches we ruled out and why
+- Current state of what was built or changed
+- Open questions that remain unresolved
+- Anything in the charter that needs updating
+
+Be specific and terse. This summary will open the next session.
